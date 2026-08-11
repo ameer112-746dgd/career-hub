@@ -167,6 +167,7 @@ import {
   FaWhatsapp, 
   FaEnvelope, 
   FaLock, 
+  FaRocket, // FIXED: Added this missing import
   FaUserCircle,
   FaUserCheck,
   FaBuilding,
@@ -207,7 +208,6 @@ const Register = () => {
     }
   };
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -224,7 +224,7 @@ const Register = () => {
   return (
     <div className="min-h-screen flex bg-white dark:bg-slate-950 overflow-hidden">
       
-      {/* LEFT SIDE: BRANDING & FEATURES (Hidden on Mobile) */}
+      {/* LEFT SIDE: BRANDING & FEATURES */}
       <motion.div 
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -235,11 +235,6 @@ const Register = () => {
           animate={{ scale: [1, 1.2, 1], rotate: [0, -45, 0] }}
           transition={{ duration: 15, repeat: Infinity }}
           className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-blue-400 rounded-full blur-[100px] opacity-20"
-        />
-        <motion.div 
-          animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
-          transition={{ duration: 12, repeat: Infinity }}
-          className="absolute bottom-[-5%] left-[-5%] w-72 h-72 bg-indigo-500 rounded-full blur-[90px] opacity-20"
         />
 
         <div className="relative z-10 text-white space-y-8">
@@ -254,9 +249,6 @@ const Register = () => {
           <h1 className="text-5xl font-black tracking-tighter leading-[1.1]">
             Build Your <span className="text-blue-200">Future</span> With Precision.
           </h1>
-          <p className="text-lg text-blue-100/70 font-medium">
-            The all-in-one ecosystem for students to get discovered and recruiters to build great teams.
-          </p>
 
           <div className="space-y-4 pt-6">
             {[
@@ -289,14 +281,12 @@ const Register = () => {
           animate="visible"
           className="max-w-xl w-full bg-white dark:bg-slate-900 lg:bg-transparent p-8 md:p-12 rounded-[40px] lg:rounded-none shadow-2xl lg:shadow-none relative z-10"
         >
-          <motion.div variants={itemVariants} className="mb-10">
+          <motion.div variants={itemVariants} className="mb-10 text-center lg:text-left">
             <h2 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">Create Account</h2>
             <p className="text-slate-500 font-medium italic mt-1">Start your journey today.</p>
           </motion.div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            
-            {/* ROLE PICKER */}
             <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4">
               <button 
                 type="button"
@@ -314,17 +304,11 @@ const Register = () => {
               </button>
             </motion.div>
 
-            {/* NAME FIELDS */}
             <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <input {...register('firstName')} placeholder="First Name" className="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/30 outline-none transition dark:text-white font-bold" required />
-              </div>
-              <div className="space-y-2">
-                <input {...register('lastName')} placeholder="Last Name" className="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/30 outline-none transition dark:text-white font-bold" required />
-              </div>
+              <input {...register('firstName')} placeholder="First Name" className="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/30 outline-none transition dark:text-white font-bold" required />
+              <input {...register('lastName')} placeholder="Last Name" className="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/30 outline-none transition dark:text-white font-bold" required />
             </motion.div>
 
-            {/* EMAIL & PASSWORD */}
             <motion.div variants={itemVariants} className="space-y-4">
                <div className="relative group">
                   <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" />
@@ -336,22 +320,17 @@ const Register = () => {
                </div>
             </motion.div>
 
-            {/* CONDITIONAL WHATSAPP */}
             <AnimatePresence>
               {selectedRole === 'recruiter' && (
-                <motion.div 
-                  initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
-                  className="space-y-2"
-                >
+                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="space-y-2">
                   <div className="relative group">
                     <FaWhatsapp className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500" />
-                    <input {...register('whatsappNumber')} placeholder="WhatsApp Number (eg. +234...)" className="w-full pl-12 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/30 outline-none transition dark:text-white font-bold" required />
+                    <input {...register('whatsappNumber')} placeholder="WhatsApp (eg. +234...)" className="w-full pl-12 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/30 outline-none transition dark:text-white font-bold" required />
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* SUBMIT BUTTON */}
             <motion.button 
               variants={itemVariants}
               whileHover={{ scale: 1.01 }}
@@ -364,7 +343,7 @@ const Register = () => {
           </form>
 
           <motion.p variants={itemVariants} className="mt-10 text-center text-slate-400 text-xs font-bold uppercase tracking-widest">
-            Already verified? <Link to="/login" className="text-primary hover:underline ml-1">Login to Portal</Link>
+            Already verified? <Link to="/login" className="text-primary hover:underline ml-1">Login</Link>
           </motion.p>
         </motion.div>
       </div>
