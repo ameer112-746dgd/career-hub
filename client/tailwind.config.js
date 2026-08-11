@@ -1,28 +1,23 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: "class", 
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}", // Scans all your components and pages
   ],
   theme: {
     extend: {
       colors: {
-        // These rely on your CSS file having :root { --primary: ... }
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#2563eb", // Added a hardcoded fallback color
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#2563eb", // Fallback blue so things aren't invisible
+          foreground: "#ffffff",
         },
+        background: "white",
+        foreground: "#0f172a",
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        xl: "1rem",
+        "2xl": "1.5rem",
+        "3xl": "2rem",
       },
     },
   },

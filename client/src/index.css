@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
-/* Your custom CSS variables and layer styles go here */
+@theme {
+  --color-primary: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -10,6 +17,21 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --border: 217.2 32.6% 17.5%;
+  }
+
+  body {
+    @apply bg-white text-slate-900 antialiased;
+  }
+  
+  /* This ensures the glass effect works */
+  .glass {
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/20 dark:border-white/5;
   }
 }
