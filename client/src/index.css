@@ -34,4 +34,12 @@
   .glass {
     @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/20 dark:border-white/5;
   }
+  
+   /* This is what the toggle triggers */
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    background-color: #0f172a; /* Force a dark background color for testing */
+    color: white;
+  }
 }

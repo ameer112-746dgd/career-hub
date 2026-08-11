@@ -11,13 +11,26 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem('theme') as Theme) || 'light';
+    // 1. Check local storage
+    const savedTheme = localStorage.getItem('theme') as Theme;
+    if (savedTheme) return savedTheme;
+
+    // 2. If no storage, check system preference
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+
+    return 'light';
   });
 
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
+    
+    // Tailwind "class" strategy works by looking for the 'dark' class on the html tag
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+
     localStorage.setItem('theme', theme);
   }, [theme]);
 
