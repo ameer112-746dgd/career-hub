@@ -2,44 +2,37 @@
 
 @theme {
   --color-primary: #2563eb;
-  --color-primary-foreground: #ffffff;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  --radius-3xl: 2rem;
+  --color-background: #0f172a; /* Deep Slate */
+  --color-foreground: #f8fafc; /* Light Slate */
+  --color-card: #1e293b;       /* Lighter Slate for cards */
+  --color-border: #334155;
 }
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+  html, body {
+    background-color: #020617; /* The "True" dark background */
+    color: #f8fafc;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --border: 217.2 32.6% 17.5%;
-  }
-
-  body {
-    @apply bg-white text-slate-900 antialiased;
-  }
-  
-  /* This ensures the glass effect works */
+  /* Force glass components to be dark and translucent */
   .glass {
-    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/20 dark:border-white/5;
+    background-color: rgba(30, 41, 59, 0.7); 
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
-  
-   /* This is what the toggle triggers */
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    background-color: #0f172a; /* Force a dark background color for testing */
-    color: white;
+
+  /* Ensure all inputs and textareas are readable in dark mode */
+  input, textarea, select {
+    background-color: #1e293b !important;
+    color: white !important;
+    border: 1px solid #334155 !important;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }
