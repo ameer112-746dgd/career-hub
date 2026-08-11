@@ -86,7 +86,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
-// 1. Load environment variables before anything else
+// 1. Load environment variables
 dotenv.config();
 
 // 2. Import Routes
@@ -101,46 +101,48 @@ import applicationRoutes from './routes/application.routes';
 // 3. Initialize the Express Application
 const app: Application = express();
 
-// 4. Robust CORS Configuration
+// 4. BULLETPROOF CORS CONFIGURATION
+// This must be the VERY FIRST middleware used
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
-  process.env.CLIENT_URL // This will be your Render URL: https://career-hub-client.onrender.com
-].filter(Boolean) as string[]; // Removes undefined or null values
+  process.env.CLIENT_URL, // Ensure this is https://career-hub-client.onrender.com on Render
+].filter(Boolean) as string[];
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl)
+    // 1. Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
 
-    // Remove trailing slashes for a cleaner comparison
-    const formattedOrigin = origin.replace(/\/$/, "");
-    const isAllowed = allowedOrigins.some(allowed => {
-      const formattedAllowed = allowed.replace(/\/$/, "");
-      return formattedAllowed === formattedOrigin;
+    // 2. Clean trailing slashes for robust matching
+    const cleanOrigin = origin.replace(/\/$/, "");
+    const isAllowed = allowedOrigins.some((allowed) => {
+      const cleanAllowed = allowed.replace(/\/$/, "");
+      return cleanAllowed === cleanOrigin;
     });
 
     if (isAllowed) {
       callback(null, true);
     } else {
-      // This will show up in your Render Logs to tell you exactly what failed
-      console.warn(`🛑 CORS Blocked: Origin ${origin} not in allowed list:`, allowedOrigins);
+      // THIS LOG IS CRITICAL: It will show in your Render Dashboard Logs
+      console.error(`🛑 CORS REJECTED | Origin: "${origin}" | Allowed: ${JSON.stringify(allowedOrigins)}`);
       callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'));
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  optionsSuccessStatus: 200, // Necessary for some legacy browsers
 }));
 
-// 5. Middleware
+// 5. Security & Request Parsing Middleware
 app.use(helmet({
-  crossOriginResourcePolicy: false, // Allows images/assets to be loaded across origins
+  crossOriginResourcePolicy: false, // Allows assets to be loaded from the backend
 }));
-app.use(morgan('dev'));
-app.use(express.json());
+app.use(morgan('dev')); // Logs requests to the terminal
+app.use(express.json()); // Parses incoming JSON
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser()); // Parses cookies for JWT tokens
 
 // 6. API Endpoints
 app.use('/api/v1/auth', authRoutes);
@@ -151,14 +153,20 @@ app.use('/api/v1/chat', chatRoutes);
 app.use('/api/v1/interviews', interviewRoutes);
 app.use('/api/v1/applications', applicationRoutes); 
 
-// Health Check
+// 7. Health Check (To verify server is up at /health)
 app.get('/health', (req: Request, res: Response) => {
-  res.status(200).json({ status: 'OK', message: 'CareerHub API is operational' });
+  res.status(200).json({ 
+    status: 'OK', 
+    message: 'CareerHub API is operational',
+    timestamp: new Date().toISOString()
+  });
 });
 
-// 7. Global Error Handler
+// 8. Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.status || 500;
+  
+  // Detailed server-side logging
   console.error(`[ERROR] ${req.method} ${req.url} >> ${err.message}`);
 
   res.status(statusCode).json({
