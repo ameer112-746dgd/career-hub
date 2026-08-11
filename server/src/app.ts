@@ -101,20 +101,18 @@ import applicationRoutes from './routes/application.routes';
 // 3. Initialize the Express Application
 const app: Application = express();
 
-// 4. BULLETPROOF CORS CONFIGURATION
-// This must be the VERY FIRST middleware used
+// 4. IMPROVED CORS CONFIGURATION
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
-  process.env.CLIENT_URL, // Ensure this is https://career-hub-client.onrender.com on Render
+  process.env.CLIENT_URL,
 ].filter(Boolean) as string[];
 
 app.use(cors({
   origin: (origin, callback) => {
-    // 1. Allow requests with no origin (like mobile apps or curl)
+    // Allow if no origin (mobile/curl)
     if (!origin) return callback(null, true);
 
-    // 2. Clean trailing slashes for robust matching
     const cleanOrigin = origin.replace(/\/$/, "");
     const isAllowed = allowedOrigins.some((allowed) => {
       const cleanAllowed = allowed.replace(/\/$/, "");
@@ -124,15 +122,16 @@ app.use(cors({
     if (isAllowed) {
       callback(null, true);
     } else {
-      // THIS LOG IS CRITICAL: It will show in your Render Dashboard Logs
-      console.error(`🛑 CORS REJECTED | Origin: "${origin}" | Allowed: ${JSON.stringify(allowedOrigins)}`);
-      callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'));
+      // LOG THIS: Check Render logs to see if your CLIENT_URL matches this string exactly
+      console.error(`CORS REJECTED: ${origin}`); 
+      callback(null, false); // DO NOT pass an Error() here, pass false.
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  optionsSuccessStatus: 200, // Necessary for some legacy browsers
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  exposedHeaders: ['Set-Cookie'],
+  optionsSuccessStatus: 200,
 }));
 
 // 5. Security & Request Parsing Middleware
