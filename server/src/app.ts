@@ -108,29 +108,12 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
 ].filter(Boolean) as string[];
 
+// USE THIS ONLY IF THE ABOVE FAILS
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow if no origin (mobile/curl)
-    if (!origin) return callback(null, true);
-
-    const cleanOrigin = origin.replace(/\/$/, "");
-    const isAllowed = allowedOrigins.some((allowed) => {
-      const cleanAllowed = allowed.replace(/\/$/, "");
-      return cleanAllowed === cleanOrigin;
-    });
-
-    if (isAllowed) {
-      callback(null, true);
-    } else {
-      // LOG THIS: Check Render logs to see if your CLIENT_URL matches this string exactly
-      console.error(`CORS REJECTED: ${origin}`); 
-      callback(null, false); // DO NOT pass an Error() here, pass false.
-    }
-  },
+  origin: true, // This tells the server to reflect the origin of the request (Allows everything)
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
-  exposedHeaders: ['Set-Cookie'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   optionsSuccessStatus: 200,
 }));
 
