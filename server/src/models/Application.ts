@@ -1,3 +1,33 @@
+// import mongoose, { Schema, Document } from 'mongoose';
+
+// export interface IApplication extends Document {
+//   jobId: mongoose.Types.ObjectId;
+//   studentId: mongoose.Types.ObjectId;
+//   resumeId: mongoose.Types.ObjectId;
+//   status: 'pending' | 'reviewed' | 'shortlisted' | 'rejected';
+//   appliedDate: Date;
+// }
+
+// const ApplicationSchema = new Schema(
+//   {
+//     jobId: { type: Schema.Types.ObjectId, ref: 'Job', required: true },
+//     studentId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+//     resumeId: { type: Schema.Types.ObjectId, ref: 'Resume', required: true },
+//     status: { 
+//       type: String, 
+//       enum: ['pending', 'reviewed', 'shortlisted', 'rejected'], 
+//       default: 'pending' 
+//     },
+//     appliedDate: { type: Date, default: Date.now }
+//   },
+//   { timestamps: true }
+// );
+
+// // Prevent duplicate applications for the same job
+// ApplicationSchema.index({ jobId: 1, studentId: 1 }, { unique: true });
+
+// export default mongoose.model<IApplication>('Application', ApplicationSchema);
+
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IApplication extends Document {
@@ -6,6 +36,8 @@ export interface IApplication extends Document {
   resumeId: mongoose.Types.ObjectId;
   status: 'pending' | 'reviewed' | 'shortlisted' | 'rejected';
   appliedDate: Date;
+  createdAt: Date; // ADD THIS LINE
+  updatedAt: Date; // ADD THIS LINE
 }
 
 const ApplicationSchema = new Schema(
@@ -23,7 +55,6 @@ const ApplicationSchema = new Schema(
   { timestamps: true }
 );
 
-// Prevent duplicate applications for the same job
 ApplicationSchema.index({ jobId: 1, studentId: 1 }, { unique: true });
 
 export default mongoose.model<IApplication>('Application', ApplicationSchema);
