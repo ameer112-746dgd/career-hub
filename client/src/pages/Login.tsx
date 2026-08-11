@@ -76,7 +76,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaArrowRight, FaLock, FaEnvelope, FaBriefcase, FaChartLine, FaShieldAlt } from 'react-icons/fa';
+import { 
+  FaArrowRight, 
+  FaLock, 
+  FaEnvelope, 
+  FaRocket, 
+  FaChartLine, 
+  FaBriefcase, 
+  FaShieldAlt 
+} from 'react-icons/fa';
 import toast from 'react-hot-toast';
 
 const loginSchema = z.object({
@@ -102,7 +110,6 @@ const Login = () => {
     }
   };
 
-  // Variants for staggered animations
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -119,27 +126,21 @@ const Login = () => {
   return (
     <div className="min-h-screen flex bg-white dark:bg-slate-950 overflow-hidden">
       
-      {/* LEFT SIDE: THE VISUAL/IMAGE SECTION (Hidden on Mobile) */}
+      {/* LEFT SIDE: BRANDING SECTION (Desktop Only) */}
       <motion.div 
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="hidden lg:flex lg:w-1/2 relative bg-primary items-center justify-center p-12 overflow-hidden"
       >
-        {/* Animated Background Blobs */}
+        {/* Decorative Background Elements */}
         <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-          }}
+          animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
           transition={{ duration: 20, repeat: Infinity }}
           className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-400 rounded-full blur-[100px] opacity-30"
         ></motion.div>
         <motion.div 
-          animate={{ 
-            scale: [1, 1.3, 1],
-            x: [0, 50, 0],
-          }}
+          animate={{ scale: [1, 1.3, 1], x: [0, 50, 0] }}
           transition={{ duration: 15, repeat: Infinity }}
           className="absolute bottom-[-10%] right-[-10%] w-80 h-80 bg-indigo-500 rounded-full blur-[100px] opacity-30"
         ></motion.div>
@@ -151,7 +152,7 @@ const Login = () => {
             transition={{ delay: 0.5 }}
             className="mb-8 w-20 h-20 bg-white/10 backdrop-blur-xl rounded-3xl flex items-center justify-center text-4xl shadow-2xl"
           >
-            🚀
+            <FaRocket className="text-blue-200" />
           </motion.div>
           <h1 className="text-6xl font-black tracking-tighter leading-tight mb-6">
             Your Next <span className="text-blue-200 underline decoration-wavy underline-offset-8">Career</span> Move Starts Here.
@@ -160,7 +161,6 @@ const Login = () => {
             Join thousands of professionals using AI-powered tools to land their dream jobs.
           </p>
 
-          {/* Mini Feature Cards */}
           <div className="mt-12 space-y-4">
             {[
               { icon: FaChartLine, text: "AI Resume Scoring" },
@@ -184,9 +184,8 @@ const Login = () => {
         </div>
       </motion.div>
 
-      {/* RIGHT SIDE: THE LOGIN FORM */}
+      {/* RIGHT SIDE: LOGIN FORM */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 relative">
-        {/* Background Accent for Mobile */}
         <div className="lg:hidden absolute top-0 left-0 w-full h-64 bg-primary rounded-b-[60px] z-0"></div>
 
         <motion.div 
@@ -196,8 +195,8 @@ const Login = () => {
           className="max-w-md w-full bg-white dark:bg-slate-900 lg:bg-transparent p-8 md:p-12 rounded-[40px] lg:rounded-none shadow-2xl lg:shadow-none relative z-10"
         >
           <motion.div variants={itemVariants} className="text-center lg:text-left mb-10">
-            <h2 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">Login</h2>
-            <p className="mt-2 text-slate-500 font-medium italic">Welcome back! Please enter your details.</p>
+            <h2 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">Welcome Back</h2>
+            <p className="mt-2 text-slate-500 font-medium italic">Enter your credentials to continue.</p>
           </motion.div>
           
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
@@ -207,13 +206,8 @@ const Login = () => {
                 <input 
                   {...register('email')} 
                   placeholder="Email Address" 
-                  className={`w-full pl-12 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/50 focus:bg-white dark:focus:bg-slate-950 outline-none transition-all dark:text-white font-medium ${errors.email ? 'border-red-400' : ''}`} 
+                  className={`w-full pl-12 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/30 outline-none transition-all dark:text-white font-medium ${errors.email ? 'border-red-400' : ''}`} 
                 />
-                <AnimatePresence>
-                  {errors.email && (
-                    <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-black uppercase mt-2 ml-2 tracking-widest">{errors.email.message}</motion.p>
-                  )}
-                </AnimatePresence>
               </div>
 
               <div className="relative group">
@@ -222,18 +216,9 @@ const Login = () => {
                   type="password" 
                   {...register('password')} 
                   placeholder="Password" 
-                  className={`w-full pl-12 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/50 focus:bg-white dark:focus:bg-slate-950 outline-none transition-all dark:text-white font-medium ${errors.password ? 'border-red-400' : ''}`} 
+                  className={`w-full pl-12 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:border-primary/30 outline-none transition-all dark:text-white font-medium ${errors.password ? 'border-red-400' : ''}`} 
                 />
-                <AnimatePresence>
-                  {errors.password && (
-                    <motion.p initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-red-500 text-[10px] font-black uppercase mt-2 ml-2 tracking-widest">{errors.password.message}</motion.p>
-                  )}
-                </AnimatePresence>
               </div>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="flex justify-end">
-                <Link to="/forgot-password" size="sm" className="text-xs font-bold text-slate-400 hover:text-primary transition">Forgot Password?</Link>
             </motion.div>
 
             <motion.button 
@@ -244,14 +229,11 @@ const Login = () => {
               className="w-full py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-950 rounded-[24px] font-black shadow-2xl hover:bg-primary hover:text-white dark:hover:bg-primary transition-all flex items-center justify-center gap-3 disabled:opacity-50"
             >
               {isSubmitting ? (
-                <div className="flex items-center gap-2">
-                  <motion.div 
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                    className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
-                  />
-                  Authenticating...
-                </div>
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                  className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                />
               ) : (
                 <>Sign In <FaArrowRight /></>
               )}
@@ -259,8 +241,8 @@ const Login = () => {
           </form>
 
           <motion.div variants={itemVariants} className="mt-10 text-center text-sm font-medium">
-            <span className="text-slate-400">New to CareerHub? </span>
-            <Link to="/register" className="text-primary font-black hover:underline decoration-2 underline-offset-4">Join our talent pool</Link>
+            <span className="text-slate-400">New here? </span>
+            <Link to="/register" className="text-primary font-black hover:underline decoration-2 underline-offset-4">Create your account</Link>
           </motion.div>
         </motion.div>
       </div>
