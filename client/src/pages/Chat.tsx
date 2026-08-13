@@ -437,7 +437,7 @@ const Chat = () => {
                 <div>
                   <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-none">{selectedPartner.firstName} {selectedPartner.lastName}</h3>
                   <button onClick={() => setShowProfileModal(true)} className="text-[10px] text-primary font-black uppercase tracking-widest hover:underline mt-1.5 flex items-center gap-1.5 transition">
-                    View Persona <FaInfoCircle size={10}/>
+                    View Profile <FaInfoCircle size={10}/>
                   </button>
                 </div>
               </div>
