@@ -1,4 +1,4 @@
-import 'dotenv/config'; // <--- THIS MUST BE LINE 1. DO NOT MOVE IT.
+import 'dotenv/config';
 
 import app from './app';
 import { connectDB } from './database/connection';
