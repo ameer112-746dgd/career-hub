@@ -293,7 +293,7 @@ const Register = () => {
                 onClick={() => setValue('role', 'student')}
                 className={`p-4 rounded-2xl border-2 flex items-center justify-center gap-3 transition-all font-black text-xs uppercase tracking-widest ${selectedRole === 'student' ? 'border-primary bg-primary/5 text-primary' : 'border-slate-100 dark:border-white/5 text-slate-400'}`}
               >
-                <FaUser /> Student
+                <FaUser /> Candidate
               </button>
               <button 
                 type="button"
