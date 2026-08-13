@@ -19,7 +19,7 @@ const Jobs = () => {
   
   // --- UI STATE ---
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTypes, setSelectedTypes] = useState<string[]>(['Full-time', 'Internship', 'Remote', 'Part-time']);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(['Full-time', 'Internship', 'Remote']);
 
   // --- DATA FETCHING ---
   const { data: jobs, isLoading } = useQuery({
@@ -71,7 +71,7 @@ const Jobs = () => {
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Employment Type</label>
                 <div className="space-y-4">
-                  {['Full-time', 'Internship', 'Remote', 'Part-time'].map(type => (
+                  {['Full-time', 'Internship', 'Remote'].map(type => (
                     <label key={type} className="flex items-center gap-3 cursor-pointer group">
                       <div className="relative flex items-center">
                         <input 
