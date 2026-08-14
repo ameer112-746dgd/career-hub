@@ -1,4 +1,4 @@
-import { Search, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface TopbarProps {
@@ -19,15 +19,6 @@ const Topbar = ({ onMenuClick }: TopbarProps) => {
           <Menu size={20} />
         </button>
 
-        {/* Search Bar - Hidden on small mobile */}
-        <div className="relative hidden md:block w-96">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
-          <input 
-            type="text" 
-            placeholder="Search Intelligence..."
-            className="w-full pl-12 pr-4 py-2.5 bg-white/5 border border-white/5 rounded-2xl text-sm text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none"
-          />
-        </div>
       </div>
 
       <div className="flex items-center gap-4">
